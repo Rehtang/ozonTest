@@ -1,27 +1,19 @@
-FROM golang:1.20.5 AS builder
+FROM golang:1.20.5
 
-# Установка зависимостей для сборки
-RUN apk update && apk add --no-cache git
+ARG port=9090
+ARG storage="postgres"
+ARG postgres-link="jdbc:postgresql://localhost:5432/"
 
-RUN mkdir /app
 
 WORKDIR /app
-
-COPY go.mod .
-COPY go.sum .
-
-RUN go mod download
 
 COPY . .
 
+RUN apt-get update && \
+    apt-get install -y git
+
+RUN go mod download
+
 RUN go build -o main .
-
-FROM alpine:latest
-
-RUN apk --no-cache add ca-certificates
-
-COPY --from=builder /app/main /app/main
-
-WORKDIR /app
 
 CMD ["./main"]
