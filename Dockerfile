@@ -1,19 +1,13 @@
 FROM golang:1.20.5
 
-ARG port=9090
-ARG storage="postgres"
-ARG postgres-link="jdbc:postgresql://localhost:5432/"
-
-
 WORKDIR /app
 
 COPY . .
 
-RUN apt-get update && \
-    apt-get install -y git
+ENV PORT=9090
+ENV STORAGE_TYPE=postgres
+ENV POSTGRES_LINK=postgres://postgres:postgres@localhost:5432/ozonTest
 
-RUN go mod download
+RUN go build -o ozonTest .
 
-RUN go build -o main .
-
-CMD ["./main"]
+CMD ["./ozonTest", "-port=${PORT}", "-storage=${STORAGE_TYPE}", "-postgres-link=${POSTGRES_LINK}"]

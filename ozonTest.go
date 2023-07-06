@@ -10,9 +10,9 @@ import (
 
 func main() {
 	// Флаги командной строки
-	port := flag.String("port", "9090", "HTTP server port")
+	port := flag.String("port", "5676", "HTTP server port")
 	storageType := flag.String("storage", "postgres", "Storage type: inmemory or postgres")
-	dbConnectionString := flag.String("postgres-link", "postgres://postgres:postgres@localhost:5432/ozonTest?sslmode=disable", "PostgreSQL database connection link")
+	dbConnectionString := flag.String("postgres-link", "postgres://postgres:postgres@localhost:5432/ozonTest", "PostgreSQL database connection link")
 	flag.Parse()
 
 	// Создание хранилища
